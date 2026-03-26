@@ -15,6 +15,7 @@ import {
 import { supabase } from '@/lib/supabase'
 import { useAppSelector } from '@/hooks/useAppDispatch'
 import { Avatar } from '@/components/ui/Avatar'
+import { LogoutModal } from '@/components/ui/LogoutModal'
 
 const userLinks = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -36,6 +37,7 @@ export function Sidebar() {
   const navigate = useNavigate()
   const profile = useAppSelector((s) => s.auth.profile)
   const [open, setOpen] = useState(false)
+  const [logoutOpen, setLogoutOpen] = useState(false)
 
   async function handleSignOut() {
     await supabase.auth.signOut()
@@ -57,7 +59,7 @@ export function Sidebar() {
       </div>
 
       <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
-        {userLinks.map(({ to, icon: Icon, label }) => (
+        {!profile?.is_admin && userLinks.map(({ to, icon: Icon, label }) => (
           <Link
             key={to}
             to={to}
@@ -99,7 +101,7 @@ export function Sidebar() {
             <p className="text-sm font-medium text-white truncate">{profile?.full_name ?? 'User'}</p>
             <p className="text-xs text-slate-500 capitalize">{profile?.subscription_status}</p>
           </div>
-          <button onClick={handleSignOut} className="text-slate-500 hover:text-red-400 transition-colors">
+          <button onClick={() => setLogoutOpen(true)} className="text-slate-500 hover:text-red-400 transition-colors">
             <LogOut size={16} />
           </button>
         </div>
@@ -154,6 +156,12 @@ export function Sidebar() {
           </>
         )}
       </AnimatePresence>
+
+      <LogoutModal
+        open={logoutOpen}
+        onConfirm={handleSignOut}
+        onCancel={() => setLogoutOpen(false)}
+      />
     </>
   )
 }

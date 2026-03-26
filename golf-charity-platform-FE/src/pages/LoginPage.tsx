@@ -27,14 +27,19 @@ export function LoginPage() {
 
   async function onSubmit(data: FormData) {
     setServerError(null)
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data: authData, error } = await supabase.auth.signInWithPassword({
       email: data.email,
       password: data.password,
     })
     if (error) {
       setServerError(error.message)
     } else {
-      navigate({ to: '/dashboard' })
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('is_admin')
+        .eq('id', authData.user.id)
+        .single()
+      navigate({ to: profile?.is_admin ? '/admin' : '/dashboard' })
     }
   }
 

@@ -1,7 +1,11 @@
 import { useState } from 'react'
 import { Link, Outlet, useNavigate } from '@tanstack/react-router'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Trophy, Heart, CheckSquare, LayoutDashboard, ArrowLeft, Users, Menu, X } from 'lucide-react'
+import { Trophy, Heart, CheckSquare, LayoutDashboard, LogOut, Users, Menu, X } from 'lucide-react'
+import { supabase } from '@/lib/supabase'
+import { useAppSelector } from '@/hooks/useAppDispatch'
+import { Avatar } from '@/components/ui/Avatar'
+import { LogoutModal } from '@/components/ui/LogoutModal'
 
 const adminLinks = [
   { to: '/admin', icon: LayoutDashboard, label: 'Overview', exact: true },
@@ -16,7 +20,14 @@ const activeLinkClass = 'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm 
 
 export function AdminLayout() {
   const navigate = useNavigate()
+  const profile = useAppSelector((s) => s.auth.profile)
   const [open, setOpen] = useState(false)
+  const [logoutOpen, setLogoutOpen] = useState(false)
+
+  async function handleSignOut() {
+    await supabase.auth.signOut()
+    navigate({ to: '/' })
+  }
 
   const sidebarContent = (
     <div className="fixed left-0 top-0 h-screen w-60 flex flex-col border-r border-white/8 bg-[#0d1424] z-50">
@@ -49,13 +60,16 @@ export function AdminLayout() {
       </nav>
 
       <div className="p-3 border-t border-white/8">
-        <button
-          onClick={() => { navigate({ to: '/dashboard' }); setOpen(false) }}
-          className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm text-slate-500 hover:text-white hover:bg-white/5 transition-colors w-full"
-        >
-          <ArrowLeft size={16} />
-          Back to Dashboard
-        </button>
+        <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 transition-colors">
+          <Avatar name={profile?.full_name ?? null} avatarUrl={profile?.avatar_url} size="sm" />
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium text-white truncate">{profile?.full_name ?? 'Admin'}</p>
+            <p className="text-xs text-slate-500">Administrator</p>
+          </div>
+          <button onClick={() => setLogoutOpen(true)} className="text-slate-500 hover:text-red-400 transition-colors">
+            <LogOut size={16} />
+          </button>
+        </div>
       </div>
     </div>
   )
@@ -111,6 +125,12 @@ export function AdminLayout() {
       <main className="flex-1 lg:ml-60 min-h-screen pt-14 lg:pt-0">
         <Outlet />
       </main>
+
+      <LogoutModal
+        open={logoutOpen}
+        onConfirm={handleSignOut}
+        onCancel={() => setLogoutOpen(false)}
+      />
     </div>
   )
 }

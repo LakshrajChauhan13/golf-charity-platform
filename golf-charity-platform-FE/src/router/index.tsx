@@ -37,31 +37,48 @@ function requireAdmin() {
   }
 }
 
+function redirectIfAuthenticated() {
+  const state = store.getState()
+  if (state.auth.initialized && state.auth.user) {
+    throw redirect({ to: state.auth.profile?.is_admin ? '/admin' : '/dashboard' })
+  }
+}
+
 const rootRoute = createRootRoute({ component: Outlet })
 
 const landingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
   component: LandingPage,
+  beforeLoad: redirectIfAuthenticated,
 })
 
 const loginRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/login',
   component: LoginPage,
+  beforeLoad: redirectIfAuthenticated,
 })
 
 const registerRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/register',
   component: RegisterPage,
+  beforeLoad: redirectIfAuthenticated,
 })
+
+function redirectAdminFromDashboard() {
+  const state = store.getState()
+  if (state.auth.initialized && state.auth.profile?.is_admin) {
+    throw redirect({ to: '/admin' })
+  }
+}
 
 const dashboardLayoutRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/dashboard',
   component: DashboardLayout,
-  beforeLoad: requireAuth,
+  beforeLoad: () => { requireAuth(); redirectAdminFromDashboard() },
 })
 
 const dashboardIndexRoute = createRoute({
