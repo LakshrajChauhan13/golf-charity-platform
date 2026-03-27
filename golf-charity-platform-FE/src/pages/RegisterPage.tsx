@@ -4,8 +4,9 @@ import { motion } from 'framer-motion'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { ArrowRight, CheckCircle } from 'lucide-react'
+import { CheckCircle } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
+import { GolfGivesLogo } from '@/components/ui/GolfGivesLogo'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 
@@ -59,64 +60,54 @@ export function RegisterPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-[#0a0f1e] flex items-center justify-center p-4">
+      <div className="min-h-screen bg-[#09090b] flex items-center justify-center p-4">
         <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
+          initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="text-center max-w-md"
+          className="text-center max-w-sm"
         >
-          <div className="w-20 h-20 rounded-full bg-emerald-500/15 flex items-center justify-center mx-auto mb-6">
-            <CheckCircle className="text-emerald-400" size={40} />
+          <div className="w-14 h-14 rounded-md bg-emerald-500/10 flex items-center justify-center mx-auto mb-5">
+            <CheckCircle className="text-emerald-500" size={28} />
           </div>
-          <h2 className="text-2xl font-bold text-white mb-2">You're in!</h2>
-          <p className="text-slate-400">Account created. Redirecting to your dashboard…</p>
+          <h2 className="text-xl font-bold text-zinc-50 mb-2">You're in!</h2>
+          <p className="text-sm text-zinc-500">Account created. Redirecting to your dashboard…</p>
         </motion.div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0f1e] flex items-center justify-center p-4">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -left-40 w-96 h-96 bg-emerald-500/8 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 -right-40 w-96 h-96 bg-indigo-500/8 rounded-full blur-3xl" />
-      </div>
-
+    <div className="min-h-screen bg-[#09090b] flex items-center justify-center p-4">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="relative w-full max-w-4xl grid md:grid-cols-2 gap-8 items-start"
+        transition={{ duration: 0.4 }}
+        className="w-full max-w-3xl grid md:grid-cols-2 gap-10 items-start"
       >
         {/* Left panel */}
-        <div className="hidden md:block">
+        <div className="hidden md:flex flex-col justify-center pt-2">
           <Link to="/" className="inline-flex items-center gap-2 mb-10">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-emerald-500/20">
-              <span className="text-white font-bold">GG</span>
-            </div>
-            <span className="font-bold text-xl text-white">GolfGives</span>
+            <GolfGivesLogo size={30} />
+            <span className="font-semibold text-zinc-50">GolfGives</span>
           </Link>
-          <h1 className="text-4xl font-extrabold text-white leading-tight mb-4">
-            Join the movement.
-            <br />
-            <span className="bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">
-              Play with purpose.
-            </span>
+          <h1 className="text-3xl font-bold text-zinc-50 leading-tight mb-3">
+            Play golf.<br />
+            <span className="text-emerald-500">Give back.</span>
           </h1>
-          <p className="text-slate-400 mb-8 leading-relaxed">
+          <p className="text-sm text-zinc-500 mb-8 leading-relaxed">
             Every swing counts. Every subscription funds something that matters.
           </p>
-          <ul className="space-y-3">
+          <ul className="space-y-2.5">
             {benefits.map((b) => (
-              <li key={b} className="flex items-center gap-3 text-slate-300">
-                <CheckCircle className="text-emerald-400 shrink-0" size={18} />
-                <span>{b}</span>
+              <li key={b} className="flex items-center gap-2.5 text-xs text-zinc-400">
+                <CheckCircle className="text-emerald-500 shrink-0" size={14} />
+                {b}
               </li>
             ))}
           </ul>
-          <div className="mt-8 rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-4">
-            <p className="text-emerald-300 text-sm font-medium">Starting from £10/month</p>
-            <p className="text-slate-500 text-xs mt-1">10% minimum goes directly to your chosen charity</p>
+          <div className="mt-8 rounded-md border border-zinc-800 bg-zinc-900/60 px-4 py-3">
+            <p className="text-sm font-medium text-zinc-200">Starting from £10/month</p>
+            <p className="text-xs text-zinc-500 mt-0.5">10% minimum goes directly to your chosen charity</p>
           </div>
         </div>
 
@@ -124,18 +115,16 @@ export function RegisterPage() {
         <div>
           <div className="text-center mb-6 md:hidden">
             <Link to="/" className="inline-flex items-center gap-2">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500 to-indigo-600 flex items-center justify-center">
-                <span className="text-white text-sm font-bold">GG</span>
-              </div>
-              <span className="font-bold text-lg text-white">GolfGives</span>
+              <GolfGivesLogo size={30} />
+              <span className="font-semibold text-zinc-50">GolfGives</span>
             </Link>
           </div>
 
-          <div className="rounded-2xl border border-white/8 bg-[#111827] p-6 sm:p-8">
-            <h2 className="text-2xl font-bold text-white mb-1">Create your account</h2>
-            <p className="text-slate-400 text-sm mb-6">Free to start — subscription required for draws.</p>
+          <div className="rounded-lg border border-zinc-800 bg-zinc-900 p-6">
+            <h2 className="text-lg font-bold text-zinc-50 mb-0.5">Create your account</h2>
+            <p className="text-xs text-zinc-500 mb-5">Free to start — subscription required for draws.</p>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-3.5">
               <Input
                 label="Full Name"
                 placeholder="Your name"
@@ -143,7 +132,7 @@ export function RegisterPage() {
                 {...register('full_name')}
               />
               <Input
-                label="Email Address"
+                label="Email"
                 type="email"
                 placeholder="you@example.com"
                 error={errors.email?.message}
@@ -165,31 +154,26 @@ export function RegisterPage() {
               />
 
               {serverError && (
-                <div className="rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+                <div className="rounded-md border border-red-500/20 bg-red-500/8 px-3 py-2.5 text-xs text-red-400">
                   {serverError}
                 </div>
               )}
 
-              <Button
-                type="submit"
-                className="w-full mt-2"
-                size="lg"
-                loading={isSubmitting}
-                icon={<ArrowRight size={18} />}
-              >
-                Create Account
+              <Button type="submit" className="w-full mt-1" size="md" loading={isSubmitting}>
+                Create account
               </Button>
             </form>
 
-            <div className="mt-6 flex items-center gap-3">
-              <div className="flex-1 h-px bg-white/8" />
-              <span className="text-xs text-slate-600">OR</span>
-              <div className="flex-1 h-px bg-white/8" />
+            <div className="my-4 flex items-center gap-3">
+              <div className="flex-1 h-px bg-zinc-800" />
+              <span className="text-[10px] text-zinc-600 uppercase tracking-wider">or</span>
+              <div className="flex-1 h-px bg-zinc-800" />
             </div>
 
             <Button
               variant="outline"
-              className="w-full mt-4"
+              className="w-full"
+              size="md"
               onClick={async () => {
                 await supabase.auth.signInWithOAuth({
                   provider: 'google',
@@ -197,7 +181,7 @@ export function RegisterPage() {
                 })
               }}
             >
-              <svg className="w-4 h-4" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
                 <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
                 <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
@@ -207,9 +191,9 @@ export function RegisterPage() {
             </Button>
           </div>
 
-          <p className="text-center text-sm text-slate-500 mt-4">
+          <p className="text-center text-xs text-zinc-600 mt-4">
             Already have an account?{' '}
-            <Link to="/login" className="text-emerald-400 hover:text-emerald-300 font-medium">
+            <Link to="/login" className="text-zinc-400 hover:text-zinc-200 transition-colors">
               Sign in
             </Link>
           </p>

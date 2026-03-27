@@ -27,9 +27,9 @@ export function LogoutModal({ open, onConfirm, onCancel }: LogoutModalProps) {
             transition={{ duration: 0.2 }}
             className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[101] w-full max-w-sm"
           >
-            <div className="rounded-2xl border border-white/10 bg-[#111827] p-6 shadow-2xl">
+            <div className="rounded-lg border border-zinc-800 bg-zinc-950 p-6 shadow-2xl">
               <div className="flex items-start justify-between mb-4">
-                <div className="w-10 h-10 rounded-xl bg-red-500/15 flex items-center justify-center">
+                <div className="w-9 h-9 rounded-md bg-red-500/10 flex items-center justify-center">
                   <LogOut className="text-red-400" size={20} />
                 </div>
                 <button onClick={onCancel} className="text-slate-500 hover:text-white transition-colors">

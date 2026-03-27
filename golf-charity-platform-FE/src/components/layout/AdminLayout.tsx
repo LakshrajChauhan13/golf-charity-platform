@@ -15,8 +15,8 @@ const adminLinks = [
   { to: '/admin/winners', icon: CheckSquare, label: 'Verification' },
 ]
 
-const linkClass = 'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 text-slate-400 hover:text-white hover:bg-white/5'
-const activeLinkClass = 'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 bg-indigo-500/15 text-indigo-400'
+const linkClass = 'flex items-center gap-2.5 px-3 py-2 rounded-md text-sm transition-colors duration-150 text-zinc-500 hover:text-zinc-100 hover:bg-zinc-800/60'
+const activeLinkClass = 'flex items-center gap-2.5 px-3 py-2 rounded-md text-sm transition-colors duration-150 bg-zinc-800 text-zinc-100'
 
 export function AdminLayout() {
   const navigate = useNavigate()
@@ -30,20 +30,20 @@ export function AdminLayout() {
   }
 
   const sidebarContent = (
-    <div className="fixed left-0 top-0 h-screen w-60 flex flex-col border-r border-white/8 bg-[#0d1424] z-50">
-      <div className="flex items-center justify-between px-5 py-5 border-b border-white/8">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
-            <span className="text-white text-xs font-bold">A</span>
+    <div className="fixed left-0 top-0 h-screen w-56 flex flex-col border-r border-zinc-800/80 bg-[#0c0c0e] z-50">
+      <div className="flex items-center justify-between px-4 py-4 border-b border-zinc-800/80">
+        <div className="flex items-center gap-2.5">
+          <div className="w-6 h-6 rounded bg-zinc-800 border border-zinc-700 flex items-center justify-center">
+            <span className="text-zinc-300 text-[10px] font-semibold">A</span>
           </div>
-          <span className="font-bold text-white">Admin Panel</span>
+          <span className="font-semibold text-zinc-50 text-sm">Admin</span>
         </div>
-        <button onClick={() => setOpen(false)} className="lg:hidden text-slate-500 hover:text-white">
-          <X size={20} />
+        <button onClick={() => setOpen(false)} className="lg:hidden text-zinc-600 hover:text-zinc-100">
+          <X size={18} />
         </button>
       </div>
 
-      <nav className="flex-1 px-3 py-4 space-y-0.5">
+      <nav className="flex-1 px-2 py-3 space-y-0.5">
         {adminLinks.map(({ to, icon: Icon, label, exact }) => (
           <Link
             key={to}
@@ -53,21 +53,21 @@ export function AdminLayout() {
             activeProps={{ className: activeLinkClass }}
             onClick={() => setOpen(false)}
           >
-            <Icon size={17} />
+            <Icon size={15} />
             {label}
           </Link>
         ))}
       </nav>
 
-      <div className="p-3 border-t border-white/8">
-        <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 transition-colors">
+      <div className="p-2 border-t border-zinc-800/80">
+        <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-md hover:bg-zinc-800/60 transition-colors">
           <Avatar name={profile?.full_name ?? null} avatarUrl={profile?.avatar_url} size="sm" />
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-white truncate">{profile?.full_name ?? 'Admin'}</p>
-            <p className="text-xs text-slate-500">Administrator</p>
+            <p className="text-xs font-medium text-zinc-200 truncate">{profile?.full_name ?? 'Admin'}</p>
+            <p className="text-[10px] text-zinc-600">Administrator</p>
           </div>
-          <button onClick={() => setLogoutOpen(true)} className="text-slate-500 hover:text-red-400 transition-colors">
-            <LogOut size={16} />
+          <button onClick={() => setLogoutOpen(true)} className="text-zinc-600 hover:text-red-400 transition-colors">
+            <LogOut size={15} />
           </button>
         </div>
       </div>
@@ -75,17 +75,17 @@ export function AdminLayout() {
   )
 
   return (
-    <div className="flex min-h-screen bg-[#0a0f1e]">
+    <div className="flex min-h-screen bg-[#09090b]">
       {/* Mobile top bar */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-4 py-3 bg-[#0d1424] border-b border-white/8">
-        <div className="flex items-center gap-3">
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
-            <span className="text-white text-xs font-bold">A</span>
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-4 py-3 bg-[#0c0c0e] border-b border-zinc-800/80">
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 rounded bg-zinc-800 border border-zinc-700 flex items-center justify-center">
+            <span className="text-zinc-300 text-[10px] font-semibold">A</span>
           </div>
-          <span className="font-bold text-white">Admin Panel</span>
+          <span className="font-semibold text-zinc-50 text-sm">Admin</span>
         </div>
-        <button onClick={() => setOpen(true)} className="text-slate-400 hover:text-white">
-          <Menu size={22} />
+        <button onClick={() => setOpen(true)} className="text-zinc-500 hover:text-zinc-100">
+          <Menu size={20} />
         </button>
       </div>
 
@@ -122,7 +122,7 @@ export function AdminLayout() {
         )}
       </AnimatePresence>
 
-      <main className="flex-1 lg:ml-60 min-h-screen pt-14 lg:pt-0">
+      <main className="flex-1 lg:ml-56 min-h-screen pt-14 lg:pt-0">
         <Outlet />
       </main>
 

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { useNavigate } from '@tanstack/react-router'
 import { ArrowRight, Heart, Trophy, Target, Zap, Shield, TrendingUp } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
+import { GolfGivesLogo } from '@/components/ui/GolfGivesLogo'
 import { supabase } from '@/lib/supabase'
 import { formatCurrency } from '@/lib/utils'
 import type { Charity } from '@/types'
@@ -54,110 +55,108 @@ export function LandingPage() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-[#0a0f1e] text-white overflow-x-hidden">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 -left-40 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/3 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl" />
+    <div className="min-h-screen bg-[#09090b] text-zinc-100 overflow-x-hidden">
+      {/* Subtle single radial glow — not bubbly, just depth */}
+      <div className="pointer-events-none fixed inset-0 flex items-start justify-center">
+        <div className="mt-[-10%] h-[600px] w-[600px] rounded-full bg-emerald-950/40 blur-[120px]" />
       </div>
 
       {/* Nav */}
-      <nav className="relative z-10 flex items-center justify-between px-6 py-5 max-w-6xl mx-auto">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-emerald-500/20">
-            <span className="text-white text-sm font-bold">GG</span>
+      <nav className="relative z-10 border-b border-zinc-800/60">
+        <div className="flex items-center justify-between px-6 py-4 max-w-6xl mx-auto">
+          <div className="flex items-center gap-2.5">
+            <GolfGivesLogo size={32} />
+            <span className="font-semibold text-lg tracking-tight text-zinc-50">GolfGives</span>
           </div>
-          <span className="font-bold text-xl tracking-tight">GolfGives</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" className="hidden sm:inline-flex" onClick={() => navigate({ to: '/login' })}>
-            Sign In
-          </Button>
-          <Button size="sm" onClick={() => navigate({ to: '/register' })}>
-            Get Started
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" size="sm" className="hidden sm:inline-flex" onClick={() => navigate({ to: '/login' })}>
+              Sign in
+            </Button>
+            <Button size="sm" onClick={() => navigate({ to: '/register' })}>
+              Get started
+            </Button>
+          </div>
         </div>
       </nav>
 
       {/* Hero */}
-      <section className="relative z-10 max-w-6xl mx-auto px-6 pt-16 pb-24 text-center">
+      <section className="relative z-10 max-w-4xl mx-auto px-6 pt-24 pb-20 text-center">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: 'easeOut' }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-sm text-emerald-400 font-medium mb-8">
-            <Zap size={14} />
-            Golf. Draw. Impact.
+          <div className="inline-flex items-center gap-1.5 rounded-md border border-zinc-800 bg-zinc-900 px-3 py-1 text-xs text-zinc-400 font-medium mb-8 tracking-wide uppercase">
+            <Zap size={11} className="text-emerald-500" />
+            Golf · Draw · Impact
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-tight mb-6">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.08] mb-6 text-zinc-50">
             Play Golf.{' '}
-            <span className="bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">
-              Win Prizes.
-            </span>
+            <span className="text-emerald-500">Win Prizes.</span>
             <br />
-            <span className="text-slate-300">Change Lives.</span>
+            Change Lives.
           </h1>
 
-          <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-            A subscription platform where your monthly golf scores enter you into prize draws — and every
-            membership directly funds charities that matter.
+          <p className="text-base md:text-lg text-zinc-400 max-w-xl mx-auto mb-10 leading-relaxed">
+            Subscribe, log your Stableford scores, and enter monthly prize draws —
+            while every membership directly funds the charity you choose.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" onClick={() => navigate({ to: '/register' })} icon={<ArrowRight size={20} />}>
-              Start Your Impact Journey
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Button size="lg" onClick={() => navigate({ to: '/register' })} icon={<ArrowRight size={16} />}>
+              Create an account
             </Button>
             <Button variant="outline" size="lg" onClick={() => navigate({ to: '/login' })}>
-              I Already Have an Account
+              Sign in
             </Button>
           </div>
         </motion.div>
 
-        {/* Stats bar */}
+        {/* Stats row */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.6 }}
-          className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+          className="mt-16 pt-8 border-t border-zinc-800/60 grid grid-cols-2 md:grid-cols-4 gap-6"
         >
           {stats.map((s) => (
-            <div key={s.label} className="rounded-2xl border border-white/8 bg-white/3 p-4 backdrop-blur-sm">
-              <p className="text-2xl font-bold text-white mb-1">{s.value}</p>
-              <p className="text-sm text-slate-500">{s.label}</p>
+            <div key={s.label} className="text-center">
+              <p className="text-2xl font-bold text-zinc-50 mb-0.5">{s.value}</p>
+              <p className="text-xs text-zinc-500 uppercase tracking-wider">{s.label}</p>
             </div>
           ))}
         </motion.div>
       </section>
 
-      {/* Features */}
+      {/* How it works */}
       <section className="relative z-10 max-w-6xl mx-auto px-6 pb-20">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          transition={{ duration: 0.5 }}
+          className="mb-10"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">How It Works</h2>
-          <p className="text-slate-400">Subscribe → Score → Select Charity → Enter Draw</p>
+          <p className="text-xs text-emerald-500 font-medium uppercase tracking-widest mb-2">How it works</p>
+          <h2 className="text-2xl md:text-3xl font-bold text-zinc-50">Simple by design</h2>
         </motion.div>
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-4">
           {features.map((f, i) => (
             <motion.div
               key={f.title}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.15, duration: 0.5 }}
-              className="rounded-2xl border border-white/8 bg-[#111827] p-6 hover:border-white/15 transition-all duration-300 group"
+              transition={{ delay: i * 0.1, duration: 0.4 }}
+              className="rounded-lg border border-zinc-800 bg-zinc-900/60 p-5 hover:border-zinc-700 transition-colors duration-200"
             >
-              <div className={`w-12 h-12 rounded-xl ${f.bg} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                <f.icon className={f.color} size={22} />
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-xs font-mono text-zinc-600">0{i + 1}</span>
+                <f.icon className={f.color} size={17} />
               </div>
-              <h3 className="text-lg font-semibold text-white mb-2">{f.title}</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">{f.description}</p>
+              <h3 className="text-sm font-semibold text-zinc-100 mb-1.5">{f.title}</h3>
+              <p className="text-zinc-500 text-xs leading-relaxed">{f.description}</p>
             </motion.div>
           ))}
         </div>
@@ -169,27 +168,24 @@ export function LandingPage() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="text-center mb-10"
+          className="mb-10"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">Prize Pool Breakdown</h2>
-          <p className="text-slate-400">The prize pool grows with every active subscriber</p>
+          <p className="text-xs text-emerald-500 font-medium uppercase tracking-widest mb-2">Prize pool</p>
+          <h2 className="text-2xl md:text-3xl font-bold text-zinc-50">How winnings are split</h2>
         </motion.div>
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-4">
           {prizes.map((p, i) => (
             <motion.div
               key={p.label}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="relative rounded-2xl border border-white/8 bg-[#111827] p-6 overflow-hidden text-center"
+              transition={{ delay: i * 0.08 }}
+              className="rounded-lg border border-zinc-800 bg-zinc-900/60 p-5"
             >
-              <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${p.color}`} />
-              <p className={`text-5xl font-extrabold mb-2 bg-gradient-to-r ${p.color} bg-clip-text text-transparent`}>
-                {p.pct}
-              </p>
-              <p className="text-white font-semibold mb-1">{p.label}</p>
-              <p className="text-slate-500 text-sm">{p.desc}</p>
+              <p className="text-4xl font-bold text-zinc-50 mb-1">{p.pct}</p>
+              <p className="text-sm font-medium text-zinc-300 mb-0.5">{p.desc}</p>
+              <p className="text-xs text-zinc-500">{p.label}</p>
             </motion.div>
           ))}
         </div>
@@ -197,12 +193,12 @@ export function LandingPage() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="mt-6 rounded-2xl border border-amber-500/20 bg-amber-500/5 p-4 text-center"
+          className="mt-4 flex items-center gap-2.5 rounded-md border border-zinc-800 bg-zinc-900/40 px-4 py-3"
         >
-          <TrendingUp className="inline mr-2 text-amber-400" size={18} />
-          <span className="text-amber-300 text-sm font-medium">
-            No 5-Number Match? The jackpot rolls over to next month — growing until it's claimed.
-          </span>
+          <TrendingUp className="text-zinc-500 shrink-0" size={15} />
+          <p className="text-xs text-zinc-400">
+            No 5-number match? The jackpot rolls over — growing until it's claimed.
+          </p>
         </motion.div>
       </section>
 
@@ -213,42 +209,42 @@ export function LandingPage() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-center mb-10"
+            className="mb-10"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">Charities You'll Support</h2>
-            <p className="text-slate-400">Your subscription funds causes that matter — you choose which one</p>
+            <p className="text-xs text-emerald-500 font-medium uppercase tracking-widest mb-2">Charities</p>
+            <h2 className="text-2xl md:text-3xl font-bold text-zinc-50">You choose where it goes</h2>
           </motion.div>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
             {charities.map((c, i) => (
               <motion.div
                 key={c.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
-                className="rounded-2xl border border-white/8 bg-[#111827] p-5 hover:border-pink-500/20 transition-all duration-300"
+                transition={{ delay: i * 0.07 }}
+                className="rounded-lg border border-zinc-800 bg-zinc-900/60 p-4 hover:border-zinc-700 transition-colors"
               >
-                <div className="flex items-start gap-3">
+                <div className="flex items-center gap-3">
                   {c.image_url ? (
-                    <img src={c.image_url} alt={c.name} className="w-12 h-12 rounded-xl object-cover shrink-0" />
+                    <img src={c.image_url} alt={c.name} className="w-10 h-10 rounded-md object-cover shrink-0" />
                   ) : (
-                    <div className="w-12 h-12 rounded-xl bg-pink-500/10 flex items-center justify-center shrink-0">
-                      <Heart className="text-pink-400" size={20} />
+                    <div className="w-10 h-10 rounded-md bg-zinc-800 flex items-center justify-center shrink-0">
+                      <Heart className="text-zinc-500" size={16} />
                     </div>
                   )}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <p className="text-sm font-semibold text-white truncate">{c.name}</p>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <p className="text-sm font-medium text-zinc-100 truncate">{c.name}</p>
                       {c.is_featured && (
-                        <span className="text-xs text-amber-400 font-medium shrink-0">★ Featured</span>
+                        <span className="text-[10px] text-emerald-500 font-medium shrink-0">Featured</span>
                       )}
                     </div>
-                    <p className="text-xs text-slate-500 mt-1 line-clamp-2">{c.description}</p>
-                    <p className="text-xs text-pink-400 mt-2 font-medium">
-                      {formatCurrency(c.total_raised)} raised
-                    </p>
+                    <p className="text-xs text-zinc-500 mt-0.5">{formatCurrency(c.total_raised)} raised</p>
                   </div>
                 </div>
+                {c.description && (
+                  <p className="text-xs text-zinc-600 mt-3 line-clamp-2 leading-relaxed">{c.description}</p>
+                )}
               </motion.div>
             ))}
           </div>
@@ -258,24 +254,35 @@ export function LandingPage() {
       {/* CTA */}
       <section className="relative z-10 max-w-6xl mx-auto px-6 pb-20">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="rounded-3xl border border-white/10 bg-gradient-to-br from-emerald-900/30 to-indigo-900/30 p-6 sm:p-12 text-center backdrop-blur-sm"
+          className="rounded-lg border border-zinc-800 bg-zinc-900/80 p-8 sm:p-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6"
         >
-          <Shield className="mx-auto mb-4 text-emerald-400" size={36} />
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">Ready to Make an Impact?</h2>
-          <p className="text-slate-400 mb-8 max-w-lg mx-auto">
-            Join the community of golfers turning their passion into positive change. Every score counts.
-          </p>
-          <Button size="lg" onClick={() => navigate({ to: '/register' })} icon={<ArrowRight size={20} />}>
-            Join GolfGives Today
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <Shield size={16} className="text-emerald-500" />
+              <span className="text-xs text-emerald-500 font-medium uppercase tracking-widest">Ready to join?</span>
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold text-zinc-50 mb-2">Make your golf count.</h2>
+            <p className="text-sm text-zinc-400 max-w-md">
+              Join golfers turning their passion into positive change. Every score, every month.
+            </p>
+          </div>
+          <Button size="lg" onClick={() => navigate({ to: '/register' })} icon={<ArrowRight size={16} />} className="shrink-0">
+            Get started
           </Button>
         </motion.div>
       </section>
 
-      <footer className="relative z-10 border-t border-white/8 py-8 text-center text-slate-600 text-sm">
-        <p>© 2025 GolfGives. Golf. Draw. Impact.</p>
+      <footer className="relative z-10 border-t border-zinc-800/60 py-6">
+        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <GolfGivesLogo size={22} />
+            <span className="text-xs text-zinc-600 font-medium">GolfGives</span>
+          </div>
+          <p className="text-xs text-zinc-700">© 2026 GolfGives. Golf. Draw. Impact.</p>
+        </div>
       </footer>
     </div>
   )

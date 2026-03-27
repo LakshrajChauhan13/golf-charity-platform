@@ -16,6 +16,7 @@ import { supabase } from '@/lib/supabase'
 import { useAppSelector } from '@/hooks/useAppDispatch'
 import { Avatar } from '@/components/ui/Avatar'
 import { LogoutModal } from '@/components/ui/LogoutModal'
+import { GolfGivesLogo } from '@/components/ui/GolfGivesLogo'
 
 const userLinks = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -29,9 +30,9 @@ const adminLinks = [
   { to: '/admin', icon: Shield, label: 'Admin Panel' },
 ]
 
-const linkClass = 'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 text-slate-400 hover:text-white hover:bg-white/5'
-const activeLinkClass = 'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 bg-emerald-500/15 text-emerald-400'
-const adminActiveLinkClass = 'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 bg-indigo-500/15 text-indigo-400'
+const linkClass = 'flex items-center gap-2.5 px-3 py-2 rounded-md text-sm transition-colors duration-150 text-zinc-500 hover:text-zinc-100 hover:bg-zinc-800/60'
+const activeLinkClass = 'flex items-center gap-2.5 px-3 py-2 rounded-md text-sm transition-colors duration-150 bg-zinc-800 text-zinc-100'
+const adminActiveLinkClass = 'flex items-center gap-2.5 px-3 py-2 rounded-md text-sm transition-colors duration-150 bg-zinc-800 text-zinc-100'
 
 export function Sidebar() {
   const navigate = useNavigate()
@@ -45,20 +46,18 @@ export function Sidebar() {
   }
 
   const sidebarContent = (
-    <div className="fixed left-0 top-0 h-screen w-64 flex flex-col border-r border-white/8 bg-[#0d1424] z-50">
-      <div className="flex items-center justify-between px-6 py-5 border-b border-white/8">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-indigo-600 flex items-center justify-center">
-            <span className="text-white text-xs font-bold">GG</span>
-          </div>
-          <span className="font-bold text-white text-lg tracking-tight">GolfGives</span>
+    <div className="fixed left-0 top-0 h-screen w-60 flex flex-col border-r border-zinc-800/80 bg-[#0c0c0e] z-50">
+      <div className="flex items-center justify-between px-4 py-4 border-b border-zinc-800/80">
+        <div className="flex items-center gap-2.5">
+          <GolfGivesLogo size={28} />
+          <span className="font-semibold text-zinc-50 text-sm tracking-tight">GolfGives</span>
         </div>
-        <button onClick={() => setOpen(false)} className="lg:hidden text-slate-500 hover:text-white">
-          <X size={20} />
+        <button onClick={() => setOpen(false)} className="lg:hidden text-zinc-600 hover:text-zinc-100">
+          <X size={18} />
         </button>
       </div>
 
-      <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
+      <nav className="flex-1 px-2 py-3 space-y-0.5 overflow-y-auto">
         {!profile?.is_admin && userLinks.map(({ to, icon: Icon, label }) => (
           <Link
             key={to}
@@ -68,15 +67,15 @@ export function Sidebar() {
             activeProps={{ className: activeLinkClass }}
             onClick={() => setOpen(false)}
           >
-            <Icon size={18} />
+            <Icon size={16} />
             {label}
           </Link>
         ))}
 
         {profile?.is_admin && (
           <>
-            <div className="px-3 pt-4 pb-1">
-              <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">Admin</p>
+            <div className="px-3 pt-3 pb-1">
+              <p className="text-[10px] font-medium text-zinc-600 uppercase tracking-widest">Admin</p>
             </div>
             {adminLinks.map(({ to, icon: Icon, label }) => (
               <Link
@@ -86,7 +85,7 @@ export function Sidebar() {
                 activeProps={{ className: adminActiveLinkClass }}
                 onClick={() => setOpen(false)}
               >
-                <Icon size={18} />
+                <Icon size={16} />
                 {label}
               </Link>
             ))}
@@ -94,15 +93,15 @@ export function Sidebar() {
         )}
       </nav>
 
-      <div className="p-3 border-t border-white/8">
-        <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 cursor-pointer transition-colors">
+      <div className="p-2 border-t border-zinc-800/80">
+        <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-md hover:bg-zinc-800/60 cursor-pointer transition-colors">
           <Avatar name={profile?.full_name ?? null} avatarUrl={profile?.avatar_url} size="sm" />
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-white truncate">{profile?.full_name ?? 'User'}</p>
-            <p className="text-xs text-slate-500 capitalize">{profile?.subscription_status}</p>
+            <p className="text-xs font-medium text-zinc-200 truncate">{profile?.full_name ?? 'User'}</p>
+            <p className="text-[10px] text-zinc-600 capitalize">{profile?.subscription_status}</p>
           </div>
-          <button onClick={() => setLogoutOpen(true)} className="text-slate-500 hover:text-red-400 transition-colors">
-            <LogOut size={16} />
+          <button onClick={() => setLogoutOpen(true)} className="text-zinc-600 hover:text-red-400 transition-colors">
+            <LogOut size={15} />
           </button>
         </div>
       </div>
@@ -112,15 +111,13 @@ export function Sidebar() {
   return (
     <>
       {/* Mobile top bar */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-4 py-3 bg-[#0d1424] border-b border-white/8">
-        <div className="flex items-center gap-3">
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald-500 to-indigo-600 flex items-center justify-center">
-            <span className="text-white text-xs font-bold">GG</span>
-          </div>
-          <span className="font-bold text-white">GolfGives</span>
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-4 py-3 bg-[#0c0c0e] border-b border-zinc-800/80">
+        <div className="flex items-center gap-2.5">
+          <GolfGivesLogo size={26} />
+          <span className="font-semibold text-zinc-50 text-sm">GolfGives</span>
         </div>
-        <button onClick={() => setOpen(true)} className="text-slate-400 hover:text-white">
-          <Menu size={22} />
+        <button onClick={() => setOpen(true)} className="text-zinc-500 hover:text-zinc-100">
+          <Menu size={20} />
         </button>
       </div>
 
