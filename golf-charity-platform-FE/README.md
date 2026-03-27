@@ -1,73 +1,121 @@
-# React + TypeScript + Vite
+# GolfGives — Golf. Draw. Impact.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A subscription-based golf charity platform where players log Stableford scores, enter monthly prize draws, and fund their chosen charities — all in one place.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tech Stack
 
-## React Compiler
+| Layer | Technology |
+|---|---|
+| Framework | React 19 + TypeScript + Vite 8 |
+| Styling | Tailwind CSS v4 |
+| Routing | TanStack Router v1 (code-based) |
+| Server State | TanStack Query v5 |
+| Client State | Redux Toolkit (auth slice) |
+| Forms | React Hook Form + Zod |
+| Animation | Framer Motion |
+| Icons | Lucide React |
+| Backend | Supabase (Auth + DB + Storage) |
+| Payments | Stripe (Checkout + Billing Portal + Webhooks) |
+| Fonts | Plus Jakarta Sans + DM Serif Display |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Auth** — Email/password + Google OAuth on both Login and Register pages
+- **Subscriptions** — Monthly/yearly Stripe Checkout, billing portal, webhook lifecycle
+- **Score Tracking** — Rolling 5 Stableford scores (1–45), oldest auto-deleted on 6th entry
+- **Prize Draws** — 40/35/25% prize tier split, pool calc, rollover, simulate & publish
+- **Draw Numbers** — Each user's 5 scores become their lottery ticket numbers
+- **Charity** — Choose a charity + set contribution % (10–50%), saved to profile
+- **Winner Verification** — Winners upload proof; admin verifies
+- **Admin Panel** — KPI overview, users list, draw control (random + algorithmic), charity CMS, winner verification
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Routes
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+/                     Landing page
+/login                Sign in
+/register             Create account
+/subscription/success Post-checkout success
+
+/dashboard            User home
+/dashboard/scores     Log & view scores
+/dashboard/charity    Choose charity + contribution %
+/dashboard/draw       Draw numbers + prize info + proof upload
+/dashboard/settings   Account settings
+
+/admin                Admin overview (KPIs)
+/admin/users          Users list
+/admin/draws          Draw control
+/admin/charities      Charity CMS
+/admin/winners        Winner verification
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Getting Started
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 1. Install dependencies
+
+```bash
+npm install
 ```
+
+### 2. Set up environment variables
+
+Copy `.env.example` to `.env` and fill in your values:
+
+```bash
+cp .env.example .env
+```
+
+```env
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key
+VITE_STRIPE_PUBLISHABLE_KEY=pk_test_...
+```
+
+### 3. Run dev server
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173)
+
+### 4. Build for production
+
+```bash
+npm run build
+```
+
+Output is in `dist/`.
+
+---
+
+## Supabase Edge Functions
+
+All functions deployed with `--no-verify-jwt`:
+
+| Function | Purpose |
+|---|---|
+| `create-checkout-session` | Stripe Checkout |
+| `create-portal-session` | Stripe Billing Portal |
+| `stripe-webhook` | Subscription lifecycle events |
+
+---
+
+## Deployment
+
+Both `vercel.json` and `netlify.toml` are included for SPA routing rewrites.
+
+Set these environment variables in your deployment dashboard:
+
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_ANON_KEY`
+- `VITE_STRIPE_PUBLISHABLE_KEY`
